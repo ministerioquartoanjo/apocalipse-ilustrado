@@ -187,8 +187,39 @@ main img{
     padding: 0 1.25rem;
 }
 
-#wowslider-container0 .ws_images{
-    max-height: none;
+.ws-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(13, 110, 253, 0.85);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    z-index: 9999;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+}
+
+@media (max-width: 575.98px) {
+    .ws-counter {
+        top: 15px;
+        right: 15px;
+        font-size: 1rem;
+        padding: 4px 12px;
+        min-width: 70px;
+    }
+}
+
+#wowslider-container0 .ws_images {
+    position: relative;
 }
 
 #wowslider-container0 .ws_images img,

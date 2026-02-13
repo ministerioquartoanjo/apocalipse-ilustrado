@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
       <link rel="stylesheet" href="css/estilo.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="apple-touch-icon" href="/pt_BR/img/icon-192.png">
     <title>Apocalipse Ilustrado</title>
   </head>
   <body>
@@ -122,6 +125,38 @@
     <p>Ministério Advertência Final &copy;</p>
 </div>
 
+
+    <div id="pwa-update-toast" style="position:fixed;bottom:20px;right:20px;background:#0d6efd;color:#fff;padding:15px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:none;z-index:10000;font-family:sans-serif;">
+        Nova versão disponível! 
+        <button onclick="window.pwaUpdate()" style="margin-left:10px;background:#fff;color:#0d6efd;border:none;padding:5px 12px;border-radius:6px;font-weight:bold;cursor:pointer;">Atualizar</button>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                    reg.addEventListener('updatefound', function() {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', function() {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                document.getElementById('pwa-update-toast').style.display = 'block';
+                                window.pwaUpdate = function() {
+                                    newWorker.postMessage('skipWaiting');
+                                    window.location.reload();
+                                };
+                            }
+                        });
+                    });
+                });
+            });
+            let refreshing;
+            navigator.serviceWorker.addEventListener('controllerchange', function() {
+                if (refreshing) return;
+                window.location.reload();
+                refreshing = true;
+            });
+        }
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
